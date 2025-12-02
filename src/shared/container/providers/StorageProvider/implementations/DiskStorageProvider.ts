@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import uploadConfig from '@config/upload';
-import IStorageProvider from '../models/IStorageProvider'
+import IStorageProvider from '../models/IStorageProvider';
 
 class DisckStorageProvider implements IStorageProvider {
   public async saveFile(file: string): Promise<string> {
@@ -22,7 +22,7 @@ class DisckStorageProvider implements IStorageProvider {
       return;
     }
 
-    await fs.promises.unlink(filePath)
+    await fs.promises.unlink(filePath);
   }
 }
 

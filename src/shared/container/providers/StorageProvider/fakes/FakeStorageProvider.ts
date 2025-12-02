@@ -1,4 +1,4 @@
-import IStorageProvider from '../models/IStorageProvider'
+import IStorageProvider from '../models/IStorageProvider';
 
 class DisckStorageProvider implements IStorageProvider {
   private storage: string[] = [];
@@ -10,7 +10,9 @@ class DisckStorageProvider implements IStorageProvider {
   }
 
   public async deleteFile(file: string): Promise<void> {
-    const findIndex = this.storage.findIndex(storageFile => storageFile === file);
+    const findIndex = this.storage.findIndex(
+      storageFile => storageFile === file,
+    );
 
     this.storage.splice(findIndex, 1);
   }

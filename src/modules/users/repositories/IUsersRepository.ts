@@ -6,5 +6,5 @@ export default interface IUserRepository {
   findByEmail(email: string): Promise<User | undefined>;
   create(data: ICreateUserDTO): Promise<User>;
   save(user: User): Promise<User>;
-// eslint-disable-next-line semi
+  // eslint-disable-next-line semi
 }

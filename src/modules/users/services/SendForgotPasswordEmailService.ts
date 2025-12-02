@@ -6,6 +6,7 @@ import IUserTokensRepository from '@modules/users/repositories/IUserTokensReposi
 import IMailProvider from '@shared/container/providers/MailProvider/models/IMailProvider';
 import AppError from '@shared/errors/AppError';
 import path from 'path';
+
 interface IRequest {
   email: string;
 }
@@ -36,7 +37,7 @@ class SendForgotPasswordEmailService {
       __dirname,
       '..',
       'views',
-      'forgot_password.hbs'
+      'forgot_password.hbs',
     );
 
     await this.mailProvider.sendMail({
