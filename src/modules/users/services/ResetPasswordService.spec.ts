@@ -19,16 +19,16 @@ describe('ResetPasswordService', () => {
     resetPassword = new ResetPasswordService(
       fakeUsersRepository,
       fakeUsersTokenRepository,
-      fakeHashProvider
+      fakeHashProvider,
     );
-  })
+  });
 
   it('should be able to reset a password', async () => {
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
-      password: '12345'
-    })
+      password: '12345',
+    });
 
     const { token } = await fakeUsersTokenRepository.generate(user.id);
 
@@ -36,32 +36,34 @@ describe('ResetPasswordService', () => {
 
     await resetPassword.execute({
       password: '123123',
-      token
-    })
+      token,
+    });
 
     const updatedUser = await fakeUsersRepository.findById(user.id);
 
     expect(generateHash).toHaveBeenCalledWith('123123');
     expect(updatedUser?.password).toBe('123123');
-  })
+  });
 
   it('should not be able to reset a password with non-existen token', async () => {
     await expect(
       resetPassword.execute({
         password: '123456',
         token: 'non-existing-token',
-      })
+      }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
   it('should not be able to reset a password with non-existen user', async () => {
-    const { token } = await fakeUsersTokenRepository.generate('non-existing-user');
+    const { token } = await fakeUsersTokenRepository.generate(
+      'non-existing-user',
+    );
 
     await expect(
       resetPassword.execute({
         password: '123456',
         token,
-      })
+      }),
     ).rejects.toBeInstanceOf(AppError);
   });
 
@@ -69,8 +71,8 @@ describe('ResetPasswordService', () => {
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',
-      password: '12345'
-    })
+      password: '12345',
+    });
 
     const { token } = await fakeUsersTokenRepository.generate(user.id);
 
@@ -86,6 +88,5 @@ describe('ResetPasswordService', () => {
         token,
       }),
     ).rejects.toBeInstanceOf(AppError);
-  })
-
-})
+  });
+});

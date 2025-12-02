@@ -7,7 +7,6 @@ import IHashProvider from '@modules/users/providers/HashProvider/models/IHashPro
 import AppError from '@shared/errors/AppError';
 import { isAfter, addHours } from 'date-fns';
 
-
 interface IRequest {
   token: string;
   password: string;
@@ -23,26 +22,26 @@ class ResetPasswordService {
     private userTokensRepository: IUserTokensRepository,
 
     @inject('HashProvider')
-    private hashProvider:IHashProvider,
+    private hashProvider: IHashProvider,
   ) {}
 
   public async execute({ password, token }: IRequest): Promise<void> {
     const userToken = await this.userTokensRepository.findByToken(token);
 
-    if(!userToken) {
+    if (!userToken) {
       throw new AppError('User token does not exists');
     }
 
     const user = await this.usersRepository.findById(userToken.user_id);
 
-    if(!user) {
+    if (!user) {
       throw new AppError('User does not exists');
     }
 
     const tokenCreatAt = userToken.created_at;
     const compareDate = addHours(tokenCreatAt, 2);
 
-    if(isAfter(Date.now(), compareDate)){
+    if (isAfter(Date.now(), compareDate)) {
       throw new AppError('Token expired.');
     }
 

@@ -11,35 +11,32 @@ describe('CreateUserService', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
-    createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
-    );
+    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
   });
 
   it('should be able to create a new user', async () => {
     const user = await createUser.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
-      password: '12345'
-    })
+      password: '12345',
+    });
 
     expect(user).toHaveProperty('id');
-  })
+  });
 
   it('should not be able to create a new user with same email from another', async () => {
     await createUser.execute({
       name: 'John Doe',
       email: 'johndoe@example.com',
-      password: '12345'
-    })
+      password: '12345',
+    });
 
     await expect(
       createUser.execute({
         name: 'John Doe',
         email: 'johndoe@example.com',
-        password: '12345'
-      })
-    ).rejects.toBeInstanceOf(AppError)
-  })
-})
+        password: '12345',
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+});
